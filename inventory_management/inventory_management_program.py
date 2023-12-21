@@ -109,6 +109,7 @@ def collect(cafe24, nosnos, matching):
             nosnos_product_name.append(nosnos[nosnos['상품코드'].str.contains(matching.loc[i, 'nosnos_code'])]['출고상품명'].values[0])
             cafe24_stock_quantity.append(0)
             cafe24_safety_stock.append(0)
+            cafe24_all_quantity.append(0)
             nosnos_real_time_available_stock.append(nosnos[nosnos['상품코드'].str.contains(matching.loc[i, 'nosnos_code'])]['실시간 가용재고'].values[0])
         else:
             try:
@@ -119,7 +120,7 @@ def collect(cafe24, nosnos, matching):
                 nosnos_product_name.append(nosnos[nosnos['상품코드'].str.contains(matching.loc[i, 'nosnos_code'])]['출고상품명'].values[0])
                 cafe24_stock_quantity.append(cafe24[cafe24['품목코드'].str.contains(matching.loc[i, 'cafe_code'])]['재고수량'].values[0])
                 cafe24_safety_stock.append(cafe24[cafe24['품목코드'].str.contains(matching.loc[i, 'cafe_code'])]['안전재고'].values[0])
-                cafe24_all_quantity
+                cafe24_all_quantity.append(int(cafe24[cafe24['품목코드'].str.contains(matching.loc[i, 'cafe_code'])]['재고수량'].values[0]) + int(cafe24[cafe24['품목코드'].str.contains(matching.loc[i, 'cafe_code'])]['안전재고'].values[0]))
                 nosnos_real_time_available_stock.append(nosnos[nosnos['상품코드'].str.contains(matching.loc[i, 'nosnos_code'])]['실시간 가용재고'].values[0])
             except:
                 pass
@@ -132,6 +133,7 @@ def collect(cafe24, nosnos, matching):
         'nosnos 상품명': nosnos_product_name,
         '카페24 재고수량': cafe24_stock_quantity,
         '카페24 안전재고': cafe24_safety_stock,
+        '카페24 총 재고수량': cafe24_all_quantity,
         'nosnos 실시간가용재고': nosnos_real_time_available_stock
     }
 
